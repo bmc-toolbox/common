@@ -44,6 +44,7 @@ const (
 	SlugPSUs                  = "Power-Supplies"
 	SlugCPLD                  = "CPLD"
 	SlugEnclosure             = "Enclosure"
+	SlugMainboard             = "Mainboard"
 	SlugUnknown               = "unknown"
 
 	// Smart status
