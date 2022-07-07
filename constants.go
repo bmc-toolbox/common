@@ -19,6 +19,8 @@ const (
 	VendorAmericanMegatrends    = "ami"
 	VendorBroadcom              = "broadcom"
 	VendorInfineon              = "infineon"
+	VendorAMD                   = "amd"
+	VendorHynix                 = "hynix"
 	SystemManufacturerUndefined = "To Be Filled By O.E.M."
 
 	// Generic component slugs
@@ -53,27 +55,54 @@ const (
 	SmartStatusUnknown = "unknown"
 )
 
-// downcases and returns a normalized vendor name from the given string
-func FormatVendorName(v string) string {
+// FormatVendorName compares the given strings to identify and returned a known
+// vendor name. When a match is not found, the string is returned as is.
+//
+// Note: This method will most likely return incorrect matches if the given
+// vendor string is too short and or not unique enough.
+func FormatVendorName(name string) string {
+	v := strings.TrimSpace(strings.ToLower(name))
+
 	switch v {
-	case "ASRockRack":
-		return VendorAsrockrack
-	case "Dell Inc.":
-		return VendorDell
-	case "HP", "HPE":
+	case "hp", "hpe":
 		return VendorHPE
-	case "Supermicro":
+	case "ami":
+		return VendorAmericanMegatrends
+	case "lsi":
+		return VendorLSI
+	case "amd":
+		return VendorAMD
+	}
+
+	switch {
+	case strings.Contains(v, VendorAsrockrack):
+		return VendorAsrockrack
+	case strings.Contains(v, VendorDell):
+		return VendorDell
+	case strings.Contains(v, VendorSupermicro):
 		return VendorSupermicro
-	case "Quanta Cloud Technology Inc.":
+	case strings.Contains(v, VendorQuanta):
 		return VendorQuanta
-	case "GIGABYTE":
+	case strings.Contains(v, VendorGigabyte):
 		return VendorGigabyte
-	case "Intel Corporation":
+	case strings.Contains(v, VendorIntel):
 		return VendorIntel
-	case "Packet":
+	case strings.Contains(v, VendorPacket):
 		return VendorPacket
+	case strings.Contains(v, VendorHynix):
+		return VendorHynix
+	case strings.Contains(v, VendorInfineon):
+		return VendorInfineon
+	case strings.Contains(v, VendorBroadcom):
+		return VendorBroadcom
+	case strings.Contains(v, VendorMellanox):
+		return VendorMellanox
+	case strings.Contains(v, VendorHGST):
+		return VendorHGST
+	case strings.Contains(v, VendorToshiba):
+		return VendorToshiba
 	default:
-		return v
+		return name
 	}
 }
 
