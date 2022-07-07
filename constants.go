@@ -16,7 +16,7 @@ const (
 	VendorPacket                = "packet"
 	VendorMellanox              = "mellanox"
 	VendorToshiba               = "toshiba"
-	VendorAmericanMegatrends    = "ami"
+	VendorAmericanMegatrends    = "american megatrends"
 	VendorBroadcom              = "broadcom"
 	VendorInfineon              = "infineon"
 	VendorAMD                   = "amd"
@@ -101,6 +101,10 @@ func FormatVendorName(name string) string {
 		return VendorHGST
 	case strings.Contains(v, VendorToshiba):
 		return VendorToshiba
+	case strings.Contains(v, VendorMicron):
+		return VendorMicron
+	case strings.Contains(v, VendorAmericanMegatrends):
+		return VendorAmericanMegatrends
 	default:
 		return name
 	}
