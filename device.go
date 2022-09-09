@@ -176,6 +176,8 @@ type StorageController struct {
 	PhysicalID                   string `json:"physid,omitempty"`
 	BusInfo                      string `json:"bus_info,omitempty"`
 	SpeedGbps                    int64  `json:"speed_gbps,omitempty"`
+	MaxPhysicalDisks             int    `json:"max_physical_disks,omitempty"`
+	MaxVirtualDisks              int    `json:"max_virtual_disks,omitempty"`
 }
 
 // Mainboard component
