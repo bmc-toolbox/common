@@ -14,6 +14,8 @@ type Common struct {
 	Firmware    *Firmware         `json:"firmware,omitempty"`
 	Status      *Status           `json:"status,omitempty"`
 	Metadata    map[string]string `json:"metadata,omitempty"`
+	PCIVendorID  string            `json:"pci_vendor_id,omitempty"`
+	PCIProductID string            `json:"pci_product_id,omitempty"`
 }
 
 // Device type is composed of various components
