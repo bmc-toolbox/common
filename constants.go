@@ -55,6 +55,8 @@ const (
 	SmartStatusOK      = "ok"
 	SmartStatusFailed  = "failed"
 	SmartStatusUnknown = "unknown"
+
+	VendorMarvellPciID = "1b4b"
 )
 
 // FormatVendorName compares the given strings to identify and returned a known
@@ -139,7 +141,7 @@ func VendorFromString(s string) string {
 		return VendorMellanox
 	case strings.Contains(s, "infineon"):
 		return VendorInfineon
-	case strings.Contains(s, "1b4b-9230"):
+	case strings.Contains(s, VendorMarvell), strings.Contains(s, VendorMarvellPciID):
 		return VendorMarvell
 	default:
 		return ""
