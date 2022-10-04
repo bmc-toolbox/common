@@ -207,3 +207,13 @@ type Drive struct {
 	CapableSpeedGbps    int64    `json:"capable_speed_gbps,omitempty"`
 	NegotiatedSpeedGbps int64    `json:"negotiated_speed_gbps,omitempty"`
 }
+
+// VirtualDisk models RAID arrays
+type VirtualDisk struct {
+	ID             string   `json:"id,omitempty"`
+	Name           string   `json:"name,omitempty"`
+	RaidType       string   `json:"raid_type,omitempty"`
+	SizeBytes      int64    `json:"size_bytes,omitempty"`
+	Status         string   `json:"status,omitempty"`
+	PhysicalDrives []*Drive `json:"physical_drives,omitempty"`
+}
