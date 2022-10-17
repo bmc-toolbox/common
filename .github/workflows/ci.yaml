@@ -20,5 +20,3 @@ jobs:
       with:
         args: -v --config .golangci.yml --timeout=5m
         version: latest
-    - name: goimports-check
-      run: go get golang.org/x/tools/cmd/goimports && make goimports-check
