@@ -61,6 +61,8 @@ const (
 //
 // Note: This method will most likely return incorrect matches if the given
 // vendor string is too short and or not unique enough.
+//
+// nolint:gocyclo // This list is expected to be long.
 func FormatVendorName(name string) string {
 	v := strings.TrimSpace(strings.ToLower(name))
 
@@ -136,5 +138,19 @@ func VendorFromString(s string) string {
 		return VendorInfineon
 	default:
 		return ""
+	}
+}
+
+// Return a normalized product name given a product name
+func FormatProductName(s string) string {
+	switch s {
+	case "PowerEdge R6515":
+		return "r6515"
+	case "PowerEdge R640":
+		return "r640"
+	case "PowerEdge C6320":
+		return "c6320"
+	default:
+		return s
 	}
 }
