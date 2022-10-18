@@ -10,6 +10,7 @@ type Common struct {
 	Model       string            `json:"model,omitempty"`
 	Serial      string            `json:"serial,omitempty"`
 	ProductName string            `json:"product_name,omitempty"`
+	LogicalName string            `json:"logical_name,omitempty"`
 	Firmware    *Firmware         `json:"firmware,omitempty"`
 	Status      *Status           `json:"status,omitempty"`
 	Metadata    map[string]string `json:"metadata,omitempty"`
