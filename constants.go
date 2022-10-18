@@ -22,6 +22,7 @@ const (
 	VendorAMD                   = "amd"
 	VendorHynix                 = "hynix"
 	VendorSamsung               = "samsung"
+	VendorMarvell               = "marvell"
 	SystemManufacturerUndefined = "To Be Filled By O.E.M."
 
 	// Generic component slugs
@@ -54,6 +55,8 @@ const (
 	SmartStatusOK      = "ok"
 	SmartStatusFailed  = "failed"
 	SmartStatusUnknown = "unknown"
+
+	VendorMarvellPciID = "1b4b"
 )
 
 // FormatVendorName compares the given strings to identify and returned a known
@@ -110,6 +113,8 @@ func FormatVendorName(name string) string {
 		return VendorAmericanMegatrends
 	case strings.Contains(v, VendorSamsung):
 		return VendorSamsung
+	case strings.Contains(v, VendorMarvell):
+		return VendorMarvell
 	default:
 		return name
 	}
@@ -136,6 +141,8 @@ func VendorFromString(s string) string {
 		return VendorMellanox
 	case strings.Contains(s, "infineon"):
 		return VendorInfineon
+	case strings.Contains(s, VendorMarvell), strings.Contains(s, VendorMarvellPciID):
+		return VendorMarvell
 	default:
 		return ""
 	}

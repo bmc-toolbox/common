@@ -14,6 +14,8 @@ type Common struct {
 	Firmware    *Firmware         `json:"firmware,omitempty"`
 	Status      *Status           `json:"status,omitempty"`
 	Metadata    map[string]string `json:"metadata,omitempty"`
+	PCIVendorID  string            `json:"pci_vendor_id,omitempty"`
+	PCIProductID string            `json:"pci_product_id,omitempty"`
 }
 
 // Device type is composed of various components
@@ -176,6 +178,8 @@ type StorageController struct {
 	PhysicalID                   string `json:"physid,omitempty"`
 	BusInfo                      string `json:"bus_info,omitempty"`
 	SpeedGbps                    int64  `json:"speed_gbps,omitempty"`
+	MaxPhysicalDisks             int    `json:"max_physical_disks,omitempty"`
+	MaxVirtualDisks              int    `json:"max_virtual_disks,omitempty"`
 }
 
 // Mainboard component
@@ -202,4 +206,14 @@ type Drive struct {
 	BlockSizeBytes      int64    `json:"block_size_bytes,omitempty"`
 	CapableSpeedGbps    int64    `json:"capable_speed_gbps,omitempty"`
 	NegotiatedSpeedGbps int64    `json:"negotiated_speed_gbps,omitempty"`
+}
+
+// VirtualDisk models RAID arrays
+type VirtualDisk struct {
+	ID             string   `json:"id,omitempty"`
+	Name           string   `json:"name,omitempty"`
+	RaidType       string   `json:"raid_type,omitempty"`
+	SizeBytes      int64    `json:"size_bytes,omitempty"`
+	Status         string   `json:"status,omitempty"`
+	PhysicalDrives []*Drive `json:"physical_drives,omitempty"`
 }
