@@ -4,18 +4,19 @@ package common
 
 // Common holds attributes shared by all components
 type Common struct {
-	Oem         bool              `json:"oem"`
-	Description string            `json:"description,omitempty"`
-	Vendor      string            `json:"vendor,omitempty"`
-	Model       string            `json:"model,omitempty"`
-	Serial      string            `json:"serial,omitempty"`
-	ProductName string            `json:"product_name,omitempty"`
-	LogicalName string            `json:"logical_name,omitempty"`
-	Firmware    *Firmware         `json:"firmware,omitempty"`
-	Status      *Status           `json:"status,omitempty"`
-	Metadata    map[string]string `json:"metadata,omitempty"`
+	Oem          bool              `json:"oem"`
+	Description  string            `json:"description,omitempty"`
+	Vendor       string            `json:"vendor,omitempty"`
+	Model        string            `json:"model,omitempty"`
+	Serial       string            `json:"serial,omitempty"`
+	ProductName  string            `json:"product_name,omitempty"`
+	LogicalName  string            `json:"logical_name,omitempty"`
 	PCIVendorID  string            `json:"pci_vendor_id,omitempty"`
 	PCIProductID string            `json:"pci_product_id,omitempty"`
+	Capabilities []*Capability     `json:"capabilities,omitempty"`
+	Metadata     map[string]string `json:"metadata,omitempty"`
+	Firmware     *Firmware         `json:"firmware,omitempty"`
+	Status       *Status           `json:"status,omitempty"`
 }
 
 // Device type is composed of various components
@@ -70,6 +71,13 @@ type Firmware struct {
 // NewFirmwareObj returns a *Firmware object
 func NewFirmwareObj() *Firmware {
 	return &Firmware{Metadata: make(map[string]string)}
+}
+
+// Capability is a struct to describe a device/component capability and its status.
+type Capability struct {
+	Name        string `json:"Name"`
+	Description string `json:"Description"`
+	Enabled     bool   `json:"Enabled"`
 }
 
 // Status is the health status of a component
