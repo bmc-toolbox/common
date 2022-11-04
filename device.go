@@ -201,19 +201,20 @@ type Mainboard struct {
 type Drive struct {
 	Common
 
-	ID                  string   `json:"id,omitempty"`
-	OemID               string   `json:"oem_id,omitempty"`
-	Type                string   `json:"drive_type,omitempty"`
-	StorageController   string   `json:"storage_controller,omitempty"`
-	BusInfo             string   `json:"bus_info,omitempty"`
-	WWN                 string   `json:"wwn,omitempty"`
-	Protocol            string   `json:"protocol,omitempty"`
-	SmartStatus         string   `json:"smart_status,omitempty"`
-	SmartErrors         []string `json:"smart_errors,omitempty"`
-	CapacityBytes       int64    `json:"capacity_bytes,omitempty"`
-	BlockSizeBytes      int64    `json:"block_size_bytes,omitempty"`
-	CapableSpeedGbps    int64    `json:"capable_speed_gbps,omitempty"`
-	NegotiatedSpeedGbps int64    `json:"negotiated_speed_gbps,omitempty"`
+	ID                       string   `json:"id,omitempty"`
+	OemID                    string   `json:"oem_id,omitempty"`
+	Type                     string   `json:"drive_type,omitempty"`
+	StorageController        string   `json:"storage_controller,omitempty"`
+	BusInfo                  string   `json:"bus_info,omitempty"`
+	WWN                      string   `json:"wwn,omitempty"`
+	Protocol                 string   `json:"protocol,omitempty"`
+	SmartStatus              string   `json:"smart_status,omitempty"`
+	SmartErrors              []string `json:"smart_errors,omitempty"`
+	CapacityBytes            int64    `json:"capacity_bytes,omitempty"`
+	BlockSizeBytes           int64    `json:"block_size_bytes,omitempty"`
+	CapableSpeedGbps         int64    `json:"capable_speed_gbps,omitempty"`
+	NegotiatedSpeedGbps      int64    `json:"negotiated_speed_gbps,omitempty"`
+	StorageControllerDriveID int      `json:"storage_controller_drive_id,omitempty"`
 }
 
 // VirtualDisk models RAID arrays
