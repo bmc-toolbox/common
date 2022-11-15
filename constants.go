@@ -57,6 +57,11 @@ const (
 	SmartStatusUnknown = "unknown"
 
 	VendorMarvellPciID = "1b4b"
+
+	// RAID implementations
+	SlugRAIDImplLinuxSoftware = "linuxsw"
+	SlugRAIDImplZFS           = "zfs"
+	SlugRAIDImplHardware      = "hardware"
 )
 
 // FormatVendorName compares the given strings to identify and returned a known
