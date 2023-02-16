@@ -167,12 +167,23 @@ type Memory struct {
 type NIC struct {
 	Common
 
-	ID          string `json:"id,omitempty"`
-	Description string `json:"description,omitempty"`
-	SpeedBits   int64  `json:"speed_bits,omitempty"`
-	PhysicalID  string `json:"physid,omitempty"`
-	BusInfo     string `json:"bus_info,omitempty"`
-	MacAddress  string `json:"macaddress,omitempty"`
+	ID       string     `json:"id,omitempty"`
+	NICPorts []*NICPort `json:"nic_ports,omitempty"`
+}
+
+// NICPort component
+type NICPort struct {
+	Common
+
+	ID                   string `json:"id"`
+	SpeedBits            int64  `json:"speed_bits,omitempty"`
+	PhysicalID           string `json:"physid,omitempty"`
+	BusInfo              string `json:"bus_info,omitempty"`
+	ActiveLinkTechnology string `json:"active_link_technology,omitempty"`
+	MacAddress           string `json:"macaddress,omitempty"`
+	LinkStatus           string `json:"link_status,omitempty"`
+	AutoNeg              bool   `json:"auto_neg,omitempty"`
+	MTUSize              int    `json:"mtu_size,omitempty"`
 }
 
 // StorageController component
