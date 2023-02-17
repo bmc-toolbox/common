@@ -239,17 +239,17 @@ type DriveSmartAttributes struct {
 	// in the range from 1 to 254. Please keep in mind that smartctl only reports the different Attribute types,
 	// values, and thresholds as read from the device. It does not carry out the conversion between "Raw" and
 	// "Normalized" values: this is done by the disk's firmware.
-	NormalizedValue string `json:"normalized_value,omitempty"`
+	NormalizedValue int `json:"normalized_value,omitempty"`
 
 	// Each Attribute also has a "Worst" value shown under the heading "WORST".
 	// This is the smallest (closest to failure) value that the disk has recorded at any time during its lifetime when SMART was enabled.
 	// [Note however that some vendors firmware may actually increase the "Worst" value for some "rate-type" Attributes.]
-	Worst string `json:"worst,omitempty"`
+	Worst int `json:"worst,omitempty"`
 
 	// Each Attribute also has a Threshold value (whose range is 0 to 255) which is printed under the heading "THRESH".
 	// If the Normalized value is less than or equal to the Threshold value, then the Attribute is said to have failed.
 	// If the Attribute is a pre-failure Attribute, then disk failure is imminent.
-	Threshold string `json:"threshold,omitempty"`
+	Threshold int `json:"threshold,omitempty"`
 
 	// If the Normalized value is less than or equal to the Threshold value, then the Attribute is said to have failed.
 	// If the Attribute is a pre-failure Attribute, then disk failure is imminent.
