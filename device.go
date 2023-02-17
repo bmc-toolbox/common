@@ -201,20 +201,21 @@ type Mainboard struct {
 type Drive struct {
 	Common
 
-	ID                       string   `json:"id,omitempty"`
-	OemID                    string   `json:"oem_id,omitempty"`
-	Type                     string   `json:"drive_type,omitempty"`
-	StorageController        string   `json:"storage_controller,omitempty"`
-	BusInfo                  string   `json:"bus_info,omitempty"`
-	WWN                      string   `json:"wwn,omitempty"`
-	Protocol                 string   `json:"protocol,omitempty"`
-	SmartStatus              string   `json:"smart_status,omitempty"`
-	SmartErrors              []string `json:"smart_errors,omitempty"`
-	CapacityBytes            int64    `json:"capacity_bytes,omitempty"`
-	BlockSizeBytes           int64    `json:"block_size_bytes,omitempty"`
-	CapableSpeedGbps         int64    `json:"capable_speed_gbps,omitempty"`
-	NegotiatedSpeedGbps      int64    `json:"negotiated_speed_gbps,omitempty"`
-	StorageControllerDriveID int      `json:"storage_controller_drive_id,omitempty"`
+	ID                       string                  `json:"id,omitempty"`
+	OemID                    string                  `json:"oem_id,omitempty"`
+	Type                     string                  `json:"drive_type,omitempty"`
+	StorageController        string                  `json:"storage_controller,omitempty"`
+	BusInfo                  string                  `json:"bus_info,omitempty"`
+	WWN                      string                  `json:"wwn,omitempty"`
+	Protocol                 string                  `json:"protocol,omitempty"`
+	SmartStatus              string                  `json:"smart_status,omitempty"`
+	SmartErrors              []string                `json:"smart_errors,omitempty"`
+	SmartAttributes          []*DriveSmartAttributes `json:"smart_attributes,omitempty"`
+	CapacityBytes            int64                   `json:"capacity_bytes,omitempty"`
+	BlockSizeBytes           int64                   `json:"block_size_bytes,omitempty"`
+	CapableSpeedGbps         int64                   `json:"capable_speed_gbps,omitempty"`
+	NegotiatedSpeedGbps      int64                   `json:"negotiated_speed_gbps,omitempty"`
+	StorageControllerDriveID int                     `json:"storage_controller_drive_id,omitempty"`
 }
 
 // VirtualDisk models RAID arrays
@@ -225,4 +226,36 @@ type VirtualDisk struct {
 	SizeBytes      int64    `json:"size_bytes,omitempty"`
 	Status         string   `json:"status,omitempty"`
 	PhysicalDrives []*Drive `json:"physical_drives,omitempty"`
+}
+
+// DriveSmartAttributes holds SMART attributes for a drive.
+//
+// comments on fields taken from https://www.smartmontools.org/browser/trunk/smartmontools/smartctl.8.in
+type DriveSmartAttributes struct {
+	// Name is the SMART attribute name.
+	Name string `json:"name,omitempty"`
+
+	// Each vendor uses their own algorithm to convert this "Raw" value to a "Normalized" value
+	// in the range from 1 to 254. Please keep in mind that smartctl only reports the different Attribute types,
+	// values, and thresholds as read from the device. It does not carry out the conversion between "Raw" and
+	// "Normalized" values: this is done by the disk's firmware.
+	NormalizedValue string `json:"normalized_value,omitempty"`
+
+	// Each Attribute also has a "Worst" value shown under the heading "WORST".
+	// This is the smallest (closest to failure) value that the disk has recorded at any time during its lifetime when SMART was enabled.
+	// [Note however that some vendors firmware may actually increase the "Worst" value for some "rate-type" Attributes.]
+	Worst string `json:"worst,omitempty"`
+
+	// Each Attribute also has a Threshold value (whose range is 0 to 255) which is printed under the heading "THRESH".
+	// If the Normalized value is less than or equal to the Threshold value, then the Attribute is said to have failed.
+	// If the Attribute is a pre-failure Attribute, then disk failure is imminent.
+	Threshold string `json:"threshold,omitempty"`
+
+	// If the Normalized value is less than or equal to the Threshold value, then the Attribute is said to have failed.
+	// If the Attribute is a pre-failure Attribute, then disk failure is imminent.
+	PreFailure bool `json:"prefailure,omitempty"`
+
+	// Some SMART attribute values are updated only during off-line data collection activities;
+	// the rest are updated during normal operation of the device or during both normal operation and off-line testing.
+	UpdatedOnline bool `json:"updated_online,omitempty"`
 }
