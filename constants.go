@@ -154,14 +154,30 @@ func VendorFromString(s string) string {
 }
 
 // Return a normalized product name given a product name
+//
+// nolint:gocyclo // This list is expected to be long.
 func FormatProductName(s string) string {
 	switch s {
 	case "PowerEdge R6515":
 		return "r6515"
 	case "PowerEdge R640":
 		return "r640"
+	case "PowerEdge R6415":
+		return "r6415"
+	case "PowerEdge R750":
+		return "r750"
 	case "PowerEdge C6320":
 		return "c6320"
+	case "SYS-5019C-MR-PH004", "SYS-5019C-MR":
+		return "x11scm-f"
+	case "SYS-5039MS-H12TRF":
+		return "x11sse-f"
+	case "SYS-510T-MR-EI018", "SYS-510T-MR1-EI018":
+		return "x12sth-sys"
+	case "SSG-6029P-E1CR12L-PH004":
+		return "x11dph-t"
+	case "SSG-110P-NTR10", "SSG-110P-NTR10-EI018":
+		return "x12spo-ntf"
 	default:
 		return s
 	}
