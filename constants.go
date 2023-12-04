@@ -168,6 +168,8 @@ func FormatProductName(s string) string {
 		return "r750"
 	case "PowerEdge C6320":
 		return "c6320"
+	case "PIO-519C-MR-PH004":
+		return "x11sch-f"
 	case "SYS-5019C-MR-PH004", "SYS-5019C-MR":
 		return "x11scm-f"
 	case "SYS-5039MS-H12TRF":
@@ -178,6 +180,8 @@ func FormatProductName(s string) string {
 		return "x11dph-t"
 	case "SSG-110P-NTR10", "SSG-110P-NTR10-EI018":
 		return "x12spo-ntf"
+	case "Micron_5200_MTFDDAK480TDN":
+		return "5200MAX"
 	default:
 		return s
 	}
