@@ -84,7 +84,6 @@ func (cm *supermicroVendorConfig) FindMenuSetting(m *supermicroBiosCfgMenu, name
 	return
 }
 
-// TODO(jwb) How do we handle the random nature of sub menus here..   we could make the user pass the explicit pointer to a menu struct, or..
 func (cm *supermicroVendorConfig) Raw(name, value string, menuPath []string) {
 	menus := make([]*supermicroBiosCfgMenu, 0, len(menuPath))
 
