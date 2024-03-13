@@ -64,7 +64,11 @@ func (cm *dellVendorConfig) FindComponent(fqdd string) (c *dellComponent) {
 		}
 	}
 
-	c.FQDD = fqdd
+	c = &dellComponent{
+		XMLName:    xml.Name{},
+		FQDD:       fqdd,
+		Attributes: []*dellComponentAttribute{},
+	}
 
 	cm.ConfigData.SystemConfiguration.Components = append(cm.ConfigData.SystemConfiguration.Components, c)
 
@@ -80,7 +84,9 @@ func (cm *dellVendorConfig) FindComponentAttribute(c *dellComponent, name string
 		}
 	}
 
-	a.Name = name
+	a = &dellComponentAttribute{
+		Name: name,
+	}
 
 	c.Attributes = append(c.Attributes, a)
 
