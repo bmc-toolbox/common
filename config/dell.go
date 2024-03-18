@@ -102,14 +102,14 @@ func (cm *dellVendorConfig) Raw(name, value string, menuPath []string) {
 func (cm *dellVendorConfig) Marshal() (string, error) {
 	switch strings.ToLower(cm.ConfigFormat) {
 	case "xml":
-		x, err := xml.Marshal(cm.ConfigData)
+		x, err := xml.Marshal(cm.ConfigData.SystemConfiguration)
 		if err != nil {
 			return "", err
 		}
 
 		return string(x), nil
 	case "json":
-		x, err := json.Marshal(cm.ConfigData)
+		x, err := json.Marshal(cm.ConfigData.SystemConfiguration)
 		if err != nil {
 			return "", err
 		}
