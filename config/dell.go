@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"strings"
 )
 
@@ -33,8 +34,8 @@ type dellComponent struct {
 type dellComponentAttribute struct {
 	XMLName     xml.Name `xml:"Attribute"`
 	Name        string   `xml:"Name,attr" json:"Name"`
-	SetOnImport bool     `json:"SetOnImport"`
-	Comment     string   `json:"Comment"`
+	SetOnImport bool     `json:"SetOnImport,omitempty"`
+	Comment     string   `json:"Comment,omitempty"`
 	Value       string   `xml:",chardata" json:"Value"`
 }
 
@@ -107,6 +108,7 @@ func (cm *dellVendorConfig) Marshal() (string, error) {
 			return "", err
 		}
 
+		fmt.Printf("x: %s\n", x)
 		return string(x), nil
 	case "json":
 		x, err := json.Marshal(cm.ConfigData.SystemConfiguration)
@@ -114,6 +116,7 @@ func (cm *dellVendorConfig) Marshal() (string, error) {
 			return "", err
 		}
 
+		fmt.Printf("x: %s\n", x)
 		return string(x), nil
 	default:
 		return "", UnknownConfigFormatError(strings.ToLower(cm.ConfigFormat))
