@@ -34,8 +34,8 @@ type dellComponent struct {
 type dellComponentAttribute struct {
 	XMLName     xml.Name `xml:"Attribute"`
 	Name        string   `xml:"Name,attr" json:"Name"`
-	SetOnImport bool     `json:"SetOnImport,omitempty"`
-	Comment     string   `json:"Comment,omitempty"`
+	SetOnImport bool     `xml:"SetOnImport,omitempty" json:"SetOnImport,omitempty"`
+	Comment     string   `xml:"Comment,omitempty" json:"Comment,omitempty"`
 	Value       string   `xml:",chardata" json:"Value"`
 }
 
@@ -54,6 +54,12 @@ func NewDellVendorConfigManager(configFormat string) (VendorConfigManager, error
 	}
 
 	return dell, nil
+}
+
+func (cm *dellVendorConfig) SetSystemConfiguration(model, servicetag, timestamp string) {
+	cm.ConfigData.SystemConfiguration.Model = model
+	cm.ConfigData.SystemConfiguration.ServiceTag = servicetag
+	cm.ConfigData.SystemConfiguration.TimeStamp = timestamp
 }
 
 // FindComponent locates an existing DellComponent if one exists in the ConfigData, if not
