@@ -34,7 +34,7 @@ type supermicroBiosCfgSetting struct {
 	Type           string   `xml:"type,attr"`
 }
 
-func NewSupermicroVendorConfigManager(configFormat string) (VendorConfigManager, error) {
+func NewSupermicroVendorConfigManager(configFormat string, vendorOptions map[string]string) (VendorConfigManager, error) {
 	supermicro := &supermicroVendorConfig{}
 
 	switch strings.ToLower(configFormat) {

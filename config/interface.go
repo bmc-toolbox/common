@@ -14,14 +14,14 @@ type VendorConfigManager interface {
 	Marshal() (string, error)
 }
 
-func NewVendorConfigManager(configFormat, vendorName string) (VendorConfigManager, error) {
+func NewVendorConfigManager(configFormat, vendorName string, vendorOptions map[string]string) (VendorConfigManager, error) {
 	switch strings.ToLower(vendorName) {
 	case common.VendorDell:
-		return NewDellVendorConfigManager(configFormat)
+		return NewDellVendorConfigManager(configFormat, vendorOptions)
 	case common.VendorSupermicro:
-		return NewSupermicroVendorConfigManager(configFormat)
+		return NewSupermicroVendorConfigManager(configFormat, vendorOptions)
 	case common.VendorAsrockrack:
-		return NewAsrockrackVendorConfigManager(configFormat)
+		return NewAsrockrackVendorConfigManager(configFormat, vendorOptions)
 	default:
 		return nil, UnknownVendorError(strings.ToLower(vendorName))
 	}

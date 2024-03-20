@@ -34,7 +34,7 @@ type asrockrackBiosCfgSetting struct {
 	Type           string   `xml:"type,attr"`
 }
 
-func NewAsrockrackVendorConfigManager(configFormat string) (VendorConfigManager, error) {
+func NewAsrockrackVendorConfigManager(configFormat string, vendorOptions map[string]string) (VendorConfigManager, error) {
 	asrr := &asrockrackVendorConfig{}
 
 	switch strings.ToLower(configFormat) {

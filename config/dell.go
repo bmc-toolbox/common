@@ -39,7 +39,7 @@ type dellComponentAttribute struct {
 	Value       string   `xml:",chardata" json:"Value"`
 }
 
-func NewDellVendorConfigManager(configFormat string) (VendorConfigManager, error) {
+func NewDellVendorConfigManager(configFormat string, vendorOptions map[string]string) (VendorConfigManager, error) {
 	dell := &dellVendorConfig{}
 
 	switch strings.ToLower(configFormat) {
@@ -53,13 +53,15 @@ func NewDellVendorConfigManager(configFormat string) (VendorConfigManager, error
 		SystemConfiguration: &dellSystemConfiguration{},
 	}
 
+	dell.setSystemConfiguration(vendorOptions["model"], vendorOptions["servicetag"])
 	return dell, nil
 }
 
-func (cm *dellVendorConfig) SetSystemConfiguration(model, servicetag, timestamp string) {
+func (cm *dellVendorConfig) setSystemConfiguration(model, servicetag string) {
 	cm.ConfigData.SystemConfiguration.Model = model
 	cm.ConfigData.SystemConfiguration.ServiceTag = servicetag
-	cm.ConfigData.SystemConfiguration.TimeStamp = timestamp
+	// TODO(jwb) Make this 'now'
+	cm.ConfigData.SystemConfiguration.TimeStamp = "Tue Nov  2 21:19:16 2021"
 }
 
 // FindComponent locates an existing DellComponent if one exists in the ConfigData, if not
