@@ -3,7 +3,6 @@ package config
 import (
 	"encoding/json"
 	"encoding/xml"
-	"fmt"
 	"strings"
 )
 
@@ -19,7 +18,7 @@ type dellConfig struct {
 type dellSystemConfiguration struct {
 	XMLName    xml.Name         `xml:"SystemConfiguration"`
 	Model      string           `xml:"Model,attr" json:"Model"`
-	Comments   []string         `xml:"Comments>Comment,omitempty" json:"Comments,omitempty" `
+	Comments   []string         `xml:"Comments>Comment,omitempty" json:"Comments,omitempty"`
 	ServiceTag string           `xml:"ServiceTag,attr" json:"ServiceTag"`
 	TimeStamp  string           `xml:"TimeStamp,attr" json:"TimeStamp"`
 	Components []*dellComponent `xml:"Component" json:"Components"`
@@ -115,16 +114,12 @@ func (cm *dellVendorConfig) Marshal() (string, error) {
 		if err != nil {
 			return "", err
 		}
-
-		fmt.Printf("x: %s\n", x)
 		return string(x), nil
 	case "json":
 		x, err := json.Marshal(cm.ConfigData.SystemConfiguration)
 		if err != nil {
 			return "", err
 		}
-
-		fmt.Printf("x: %s\n", x)
 		return string(x), nil
 	default:
 		return "", UnknownConfigFormatError(strings.ToLower(cm.ConfigFormat))
