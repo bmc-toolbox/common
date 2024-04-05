@@ -174,7 +174,7 @@ func FormatProductName(s string) string {
 		return "x11scm-f"
 	case "SYS-5039MS-H12TRF":
 		return "x11sse-f"
-	case "SYS-510T-MR-EI018", "SYS-510T-MR1-EI018":
+	case "SYS-510T-MR-EI018", "SYS-510T-MR1-EI018", "SYS-510T-MR2-EI018":
 		return "x12sth-sys"
 	case "SSG-6029P-E1CR12L-PH004":
 		return "x11dph-t"
