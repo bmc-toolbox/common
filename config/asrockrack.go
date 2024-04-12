@@ -54,6 +54,10 @@ func NewAsrockrackVendorConfigManager(configFormat string, vendorOptions map[str
 // FindMenu locates an existing asrockrackBiosCfgMenu if one exists in the ConfigData, if not
 // it creates one and returns a pointer to that.
 func (cm *asrockrackVendorConfig) FindMenu(menuName string) (m *asrockrackBiosCfgMenu) {
+	if cm.ConfigData.BiosCfg.Menus == nil {
+		return
+	}
+
 	for _, m = range cm.ConfigData.BiosCfg.Menus {
 		if m.Name == menuName {
 			return

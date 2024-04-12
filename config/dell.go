@@ -53,6 +53,7 @@ func NewDellVendorConfigManager(configFormat string, vendorOptions map[string]st
 	}
 
 	dell.setSystemConfiguration(vendorOptions["model"], vendorOptions["servicetag"])
+
 	return dell, nil
 }
 
@@ -114,12 +115,14 @@ func (cm *dellVendorConfig) Marshal() (string, error) {
 		if err != nil {
 			return "", err
 		}
+
 		return string(x), nil
 	case "json":
 		x, err := json.Marshal(cm.ConfigData.SystemConfiguration)
 		if err != nil {
 			return "", err
 		}
+
 		return string(x), nil
 	default:
 		return "", UnknownConfigFormatError(strings.ToLower(cm.ConfigFormat))
