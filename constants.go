@@ -27,6 +27,8 @@ const (
 
 	// Generic component slugs
 	// Slugs are set on Device types to identify the type of component
+	//
+	// note: Enlist any new component types in the method further below.
 	SlugBackplaneExpander     = "Backplane-Expander"
 	SlugChassis               = "Chassis"
 	SlugTPM                   = "TPM"
@@ -63,6 +65,33 @@ const (
 	SlugRAIDImplZFS           = "zfs"
 	SlugRAIDImplHardware      = "hardware"
 )
+
+func ComponentTypes() []string {
+	return []string{
+		SlugBackplaneExpander,
+		SlugChassis,
+		SlugTPM,
+		SlugGPU,
+		SlugCPU,
+		SlugPhysicalMem,
+		SlugStorageController,
+		SlugStorageControllers,
+		SlugBMC,
+		SlugBIOS,
+		SlugDrive,
+		SlugDrives,
+		SlugDriveTypePCIeNVMEeSSD,
+		SlugDriveTypeSATASSD,
+		SlugDriveTypeSATAHDD,
+		SlugNIC,
+		SlugNICs,
+		SlugPSU,
+		SlugPSUs,
+		SlugCPLD,
+		SlugEnclosure,
+		SlugMainboard,
+	}
+}
 
 // FormatVendorName compares the given strings to identify and returned a known
 // vendor name. When a match is not found, the string is returned as is.
