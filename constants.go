@@ -211,6 +211,8 @@ func FormatProductName(s string) string {
 		return "x12spo-ntf"
 	case "Micron_5200_MTFDDAK480TDN":
 		return "5200MAX"
+	case "SYS-221H-TN24R":
+		return "x13dem"
 	default:
 		return s
 	}
