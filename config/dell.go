@@ -129,6 +129,11 @@ func (cm *dellVendorConfig) Marshal() (string, error) {
 	}
 }
 
+func (cm *dellVendorConfig) Unmarshal(cfgData string) (err error) {
+	err = xml.Unmarshal([]byte(cfgData), cm.ConfigData)
+	return
+}
+
 // Generic config options
 
 func (cm *dellVendorConfig) EnableTPM() {

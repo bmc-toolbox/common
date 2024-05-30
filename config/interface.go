@@ -12,6 +12,7 @@ type VendorConfigManager interface {
 
 	Raw(name, value string, menuPath []string)
 	Marshal() (string, error)
+	Unmarshal(cfgData string) (err error)
 }
 
 func NewVendorConfigManager(configFormat, vendorName string, vendorOptions map[string]string) (VendorConfigManager, error) {

@@ -114,6 +114,11 @@ func (cm *supermicroVendorConfig) Marshal() (string, error) {
 	}
 }
 
+func (cm *supermicroVendorConfig) Unmarshal(cfgData string) (err error) {
+	err = xml.Unmarshal([]byte(cfgData), cm.ConfigData)
+	return
+}
+
 // Generic config options
 
 func (cm *supermicroVendorConfig) EnableTPM() {
