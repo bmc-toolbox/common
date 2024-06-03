@@ -1,8 +1,11 @@
 package config
 
 import (
+	"bytes"
 	"encoding/xml"
 	"strings"
+
+	"golang.org/x/net/html/charset"
 )
 
 const (
@@ -34,11 +37,12 @@ type supermicroBiosCfgMenu struct {
 
 type supermicroBiosCfgSetting struct {
 	XMLName        xml.Name `xml:"Setting"`
-	Name           string   `xml:"Name,attr"`
+	Name           string   `xml:"name,attr"`
 	Order          string   `xml:"order,attr"`
 	SelectedOption string   `xml:"selectedOption,attr"`
 	Type           string   `xml:"type,attr"`
 	CheckedStatus  string   `xml:"checkedStatus,attr"`
+	NumericValue   string   `xml:"numericValue,attr"`
 }
 
 func NewSupermicroVendorConfigManager(configFormat string, vendorOptions map[string]string) (VendorConfigManager, error) {
@@ -122,7 +126,16 @@ func (cm *supermicroVendorConfig) Marshal() (string, error) {
 }
 
 func (cm *supermicroVendorConfig) Unmarshal(cfgData string) (err error) {
-	err = xml.Unmarshal([]byte(cfgData), cm.ConfigData)
+	// the xml exported by sum is ISO-8859-1 encoded
+	decoder := xml.NewDecoder(bytes.NewReader([]byte(cfgData)))
+	// convert characters from non-UTF-8 to UTF-8
+	decoder.CharsetReader = charset.NewReaderLabel
+
+	err = decoder.Decode(cm.ConfigData.BiosCfg)
+	if err != nil {
+		return err
+	}
+
 	return
 }
 
@@ -155,19 +168,25 @@ func normalizeSetting(s *supermicroBiosCfgSetting) (k, v string, err error) {
 	case "CheckBox":
 		k = normalizeName(s.Name)
 		v = normalizeValue(k, s.CheckedStatus)
-		return
 	case "Option":
 		k = normalizeName(s.Name)
 		v = normalizeValue(k, s.SelectedOption)
-		return
+	case "Password":
+		k = normalizeName(s.Name)
+		v = ""
+	case "Numeric":
+		k = normalizeName(s.Name)
+		v = normalizeValue(k, s.NumericValue)
 	default:
 		err = UnknownSettingType(s.Type)
 		return
 	}
+
+	return
 }
 
-func normalizeName(name string) string {
-	switch name {
+func normalizeName(k string) string {
+	switch k {
 	case "CpuMinSevAsid":
 		return "amd_sev"
 	case "BootMode", "Boot mode select":
@@ -185,8 +204,8 @@ func normalizeName(name string) string {
 	case "TpmSecurity", "Security Device Support":
 		return "tpm"
 	default:
-		// When we don't normalize the value append "raw:" to the value
-		return "raw:" + name
+		// When we don't normalize the key prepend "raw:"
+		return "raw:" + k
 	}
 }
 
