@@ -134,6 +134,10 @@ func (cm *dellVendorConfig) Unmarshal(cfgData string) (err error) {
 	return
 }
 
+func (cm *dellVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
+	return
+}
+
 // Generic config options
 
 func (cm *dellVendorConfig) EnableTPM() {

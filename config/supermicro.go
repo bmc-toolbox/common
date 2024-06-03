@@ -5,6 +5,12 @@ import (
 	"strings"
 )
 
+const (
+	// enabledValue and disabledValue are utilized for bios setting value normalization
+	enabledValue  = "Enabled"
+	disabledValue = "Disabled"
+)
+
 type supermicroVendorConfig struct {
 	ConfigFormat string
 	ConfigData   *supermicroConfig
@@ -32,6 +38,7 @@ type supermicroBiosCfgSetting struct {
 	Order          string   `xml:"order,attr"`
 	SelectedOption string   `xml:"selectedOption,attr"`
 	Type           string   `xml:"type,attr"`
+	CheckedStatus  string   `xml:"checkedStatus,attr"`
 }
 
 func NewSupermicroVendorConfigManager(configFormat string, vendorOptions map[string]string) (VendorConfigManager, error) {
@@ -117,6 +124,102 @@ func (cm *supermicroVendorConfig) Marshal() (string, error) {
 func (cm *supermicroVendorConfig) Unmarshal(cfgData string) (err error) {
 	err = xml.Unmarshal([]byte(cfgData), cm.ConfigData)
 	return
+}
+
+func (cm *supermicroVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
+	biosConfig = make(map[string]string)
+
+	for _, menu := range cm.ConfigData.BiosCfg.Menus {
+		for _, s := range menu.Settings {
+			switch s.Name {
+			// We want to drop this list of settings
+			case "NewSetupPassword", "NewSysPassword", "OldSetupPassword", "OldSysPassword":
+			// All others get normalized
+			default:
+				var k, v string
+				k, v, err = normalizeSetting(s)
+				if err != nil {
+					return
+				}
+
+				biosConfig[k] = v
+			}
+		}
+	}
+
+	return
+}
+
+func normalizeSetting(s *supermicroBiosCfgSetting) (k, v string, err error) {
+	switch s.Type {
+	case "CheckBox":
+		k = normalizeName(s.Name)
+		v = normalizeValue(k, s.CheckedStatus)
+		return
+	case "Option":
+		k = normalizeName(s.Name)
+		v = normalizeValue(k, s.SelectedOption)
+		return
+	default:
+		err = UnknownSettingType(s.Type)
+		return
+	}
+}
+
+func normalizeName(name string) string {
+	switch name {
+	case "CpuMinSevAsid":
+		return "amd_sev"
+	case "BootMode", "Boot mode select":
+		return "boot_mode"
+	case "IntelTxt":
+		return "intel_txt"
+	case "Software Guard Extensions (SGX)":
+		return "intel_sgx"
+	case "SecureBoot", "Secure Boot":
+		return "secure_boot"
+	case "Hyper-Threading", "Hyper-Threading [ALL]", "LogicalProc":
+		return "smt"
+	case "SriovGlobalEnable":
+		return "sr_iov"
+	case "TpmSecurity", "Security Device Support":
+		return "tpm"
+	default:
+		// When we don't normalize the value append "raw:" to the value
+		return "raw:" + name
+	}
+}
+
+func normalizeBootMode(v string) string {
+	switch strings.ToLower(v) {
+	case "legacy":
+		return "BIOS"
+	default:
+		return strings.ToUpper(v)
+	}
+}
+
+func normalizeValue(k, v string) string {
+	if k == "boot_mode" {
+		return normalizeBootMode(v)
+	}
+
+	switch strings.ToLower(v) {
+	case "disable":
+		return disabledValue
+	case "disabled":
+		return disabledValue
+	case "enable":
+		return enabledValue
+	case "enabled":
+		return enabledValue
+	case "off":
+		return disabledValue
+	case "on":
+		return enabledValue
+	default:
+		return v
+	}
 }
 
 // Generic config options

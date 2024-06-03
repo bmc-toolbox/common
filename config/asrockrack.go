@@ -110,6 +110,10 @@ func (cm *asrockrackVendorConfig) Unmarshal(cfgData string) (err error) {
 	return
 }
 
+func (cm *asrockrackVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
+	return
+}
+
 // Generic config options
 
 func (cm *asrockrackVendorConfig) EnableTPM() {
