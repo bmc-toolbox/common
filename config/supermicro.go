@@ -244,11 +244,89 @@ func normalizeValue(k, v string) string {
 
 // Generic config options
 
-func (cm *supermicroVendorConfig) EnableTPM() {
-	cm.Raw("  Security Device Support", "Enable", []string{"Trusted Computing"})
-	cm.Raw("  SHA-1 PCR Bank", "Enabled", []string{"Trusted Computing"})
+func (cm *supermicroVendorConfig) BootMode(mode string) error {
+	switch strings.ToUpper(mode) {
+	case "LEGACY", "UEFI", "DUAL":
+		cm.Raw("Boot mode select", strings.ToUpper(mode), []string{"Boot"})
+	default:
+		return InvalidBootModeOption(strings.ToUpper(mode))
+	}
+
+	return nil
 }
 
-func (cm *supermicroVendorConfig) EnableSRIOV() {
-	cm.Raw("SR-IOV Support", "Enabled", []string{"Advanced", "PCIe/PCI/PnP Configuration"})
+func (cm *supermicroVendorConfig) BootOrder(mode string) error {
+	switch strings.ToUpper(mode) {
+	case "LEGACY":
+		cm.Raw("Legacy Boot Option #1", "Hard Disk", []string{"Boot"})
+		cm.Raw("Legacy Boot Option #2", "Network", []string{"Boot"})
+		for i := 3; i < 8; i++ {
+			cm.Raw("Legacy Boot Option #"+string(i), "Disabled", []string{"Boot"})
+		}
+	case "UEFI":
+		cm.Raw("UEFI Boot Option #1", "UEFI Hard Disk", []string{"Boot"})
+		cm.Raw("UEFI Boot Option #2", "UEFI Network", []string{"Boot"})
+		for i := 3; i < 9; i++ {
+			cm.Raw("UEFI Boot Option #"+string(i), "Disabled", []string{"Boot"})
+		}
+	case "DUAL":
+		// TODO(jwb) Is this just both sets?
+	default:
+		return InvalidBootModeOption(strings.ToUpper(mode))
+	}
+
+	return nil
+}
+
+func (cm *supermicroVendorConfig) IntelSGX(mode string) error {
+	switch mode {
+	case "Disabled", "Enabled", "Software Controlled":
+		// TODO(jwb) Path needs to be determined.
+		cm.Raw("Software Guard Extensions (SGX)", mode, []string{"Advanced", "PCIe/PCI/PnP Configuration"})
+	default:
+		return InvalidSGXOption(mode)
+	}
+
+	return nil
+}
+
+func (cm *supermicroVendorConfig) SecureBoot(enable bool) error {
+	if enable {
+		cm.Raw("Secure Boot", "Enabled", []string{"SMC Secure Boot Configuration"})
+		// cm.Raw("Secure Boot Mode", "Setup", []string{"SMC Secure Boot Configuration"})
+	} else {
+		cm.Raw("Secure Boot", "Disabled", []string{"SMC Secure Boot Configuration"})
+	}
+
+	return nil
+}
+
+func (cm *supermicroVendorConfig) TPM(enable bool) error {
+	if enable {
+		// Note, this is actually 'Enable' not 'Enabled' like everything else.
+		cm.Raw(" Security Device Support", "Enable", []string{"Trusted Computing"})
+		cm.Raw(" SHA-1 PCR Bank", "Enabled", []string{"Trusted Computing"})
+	} else {
+		// Note, this is actually 'Disable' not 'Disabled' like everything else.
+		cm.Raw(" Security Device Support", "Disable", []string{"Trusted Computing"})
+		cm.Raw(" SHA-1 PCR Bank", "Disabled", []string{"Trusted Computing"})
+	}
+
+	return nil
+}
+
+func (cm *supermicroVendorConfig) SMT(enable bool) error {
+	if enable {
+		cm.Raw("Hyper-Threading", "Enabled", []string{"Advanced", "CPU Configuration"})
+	} else {
+		cm.Raw("Hyper-Threading", "Disabled", []string{"Advanced", "CPU Configuration"})
+	}
+
+	return nil
+}
+
+func (cm *supermicroVendorConfig) SRIOV(enable bool) error {
+	// TODO(jwb) Need to figure out how we do this on platforms that support it...
+
+	return nil
 }
