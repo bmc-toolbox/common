@@ -151,6 +151,7 @@ func (cm *supermicroVendorConfig) StandardConfig() (biosConfig map[string]string
 			default:
 				var k, v string
 				k, v, err = normalizeSetting(s)
+
 				if err != nil {
 					return
 				}
