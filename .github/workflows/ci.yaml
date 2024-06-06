@@ -18,5 +18,5 @@ jobs:
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v3
       with:
-        args: -v --config .golangci.yml --timeout=5m
+        args: -v --config .golangci.yml --timeout=5m --out-format=colored-line-number
         version: latest

@@ -105,6 +105,15 @@ func (cm *asrockrackVendorConfig) Marshal() (string, error) {
 	}
 }
 
+func (cm *asrockrackVendorConfig) Unmarshal(cfgData string) (err error) {
+	err = xml.Unmarshal([]byte(cfgData), cm.ConfigData)
+	return
+}
+
+func (cm *asrockrackVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
+	return
+}
+
 // Generic config options
 
 func (cm *asrockrackVendorConfig) EnableTPM() {
