@@ -3,6 +3,7 @@ package config
 import (
 	"bytes"
 	"encoding/xml"
+	"fmt"
 	"strings"
 
 	"golang.org/x/net/html/charset"
@@ -66,7 +67,7 @@ func NewSupermicroVendorConfigManager(configFormat string, vendorOptions map[str
 func (cm *supermicroVendorConfig) FindOrCreateSetting(path []string, value string) *supermicroBiosCfgSetting {
 	biosCfg := cm.ConfigData.BiosCfg
 
-	var currentMenus *[]*supermicroBiosCfgMenu = &biosCfg.Menus
+	var currentMenus = &biosCfg.Menus
 
 	for i, part := range path {
 		if i == len(path)-1 {
@@ -98,8 +99,10 @@ func (cm *supermicroVendorConfig) FindOrCreateMenu(menus *[]*supermicroBiosCfgMe
 			return (*menus)[i]
 		}
 	}
+
 	newMenu := &supermicroBiosCfgMenu{Name: name}
 	*menus = append(*menus, newMenu)
+
 	return (*menus)[len(*menus)-1]
 }
 
@@ -256,14 +259,16 @@ func (cm *supermicroVendorConfig) BootOrder(mode string) error {
 	case "LEGACY":
 		cm.Raw("Legacy Boot Option #1", "Hard Disk", []string{"Boot"})
 		cm.Raw("Legacy Boot Option #2", "Network", []string{"Boot"})
+
 		for i := 3; i < 8; i++ {
-			cm.Raw("Legacy Boot Option #"+string(i), "Disabled", []string{"Boot"})
+			cm.Raw("Legacy Boot Option #"+fmt.Sprint(i), "Disabled", []string{"Boot"})
 		}
 	case "UEFI":
 		cm.Raw("UEFI Boot Option #1", "UEFI Hard Disk", []string{"Boot"})
 		cm.Raw("UEFI Boot Option #2", "UEFI Network", []string{"Boot"})
+
 		for i := 3; i < 9; i++ {
-			cm.Raw("UEFI Boot Option #"+string(i), "Disabled", []string{"Boot"})
+			cm.Raw("UEFI Boot Option #"+fmt.Sprint(i), "Disabled", []string{"Boot"})
 		}
 	case "DUAL":
 		// TODO(jwb) Is this just both sets?
@@ -287,11 +292,10 @@ func (cm *supermicroVendorConfig) IntelSGX(mode string) error {
 }
 
 func (cm *supermicroVendorConfig) SecureBoot(enable bool) error {
-	if enable {
-		cm.Raw("Secure Boot", "Enabled", []string{"SMC Secure Boot Configuration"})
-		// cm.Raw("Secure Boot Mode", "Setup", []string{"SMC Secure Boot Configuration"})
-	} else {
+	if !enable {
 		cm.Raw("Secure Boot", "Disabled", []string{"SMC Secure Boot Configuration"})
+	} else {
+		cm.Raw("Secure Boot", "Enabled", []string{"SMC Secure Boot Configuration"})
 	}
 
 	return nil
@@ -323,6 +327,5 @@ func (cm *supermicroVendorConfig) SMT(enable bool) error {
 
 func (cm *supermicroVendorConfig) SRIOV(enable bool) error {
 	// TODO(jwb) Need to figure out how we do this on platforms that support it...
-
 	return nil
 }
