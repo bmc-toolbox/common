@@ -149,6 +149,32 @@ func (cm *dellVendorConfig) BootMode(mode string) error {
 	return
 }
 
+func (cm *dellVendorConfig) IntelSGX(mode string) error {
+	// Unimplemented
+	return
+}
+
+func (cm *dellVendorConfig) SecureBoot(enable bool) error {
+	// Unimplemented
+	return
+}
+
+func (cm *dellVendorConfig) TPM(enable bool) error {
+	// Unimplemented
+	return
+}
+
+func (cm *dellVendorConfig) SMT(enable bool) error {
+	// Unimplemented
+	return
+}
+
+func (cm *dellVendorConfig) SRIOV(enable bool) error {
+	// Unimplemented
+	return
+}
+
+
 func (cm *dellVendorConfig) EnableTPM() {
 	cm.Raw("EnableTPM", "Enabled", []string{"BIOS.Setup.1-1"})
 }

@@ -125,6 +125,31 @@ func (cm *asrockrackVendorConfig) BootMode(mode string) error {
 	return
 }
 
+func (cm *asrockrackVendorConfig) IntelSGX(mode string) error {
+	// Unimplemented
+	return
+}
+
+func (cm *asrockrackVendorConfig) SecureBoot(enable bool) error {
+	// Unimplemented
+	return
+}
+
+func (cm *asrockrackVendorConfig) TPM(enable bool) error {
+	// Unimplemented
+	return
+}
+
+func (cm *asrockrackVendorConfig) SMT(enable bool) error {
+	// Unimplemented
+	return
+}
+
+func (cm *asrockrackVendorConfig) SRIOV(enable bool) error {
+	// Unimplemented
+	return
+}
+
 func (cm *asrockrackVendorConfig) EnableTPM() {
 	// Unimplemented
 }
