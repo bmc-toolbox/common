@@ -78,17 +78,20 @@ func (cm *supermicroVendorConfig) FindOrCreateSetting(path []string, value strin
 						return (*currentMenus)[j].Settings[k]
 					}
 				}
-
-				newSetting := &supermicroBiosCfgSetting{Name: part, SelectedOption: value}
-				(*currentMenus)[j].Settings = append((*currentMenus)[j].Settings, newSetting)
-				return (*currentMenus)[j].Settings[len((*currentMenus)[j].Settings)-1]
 			}
+
+			// If no setting found in any menu, create a new setting in the first menu
+			newSetting := supermicroBiosCfgSetting{Name: part, SelectedOption: ""}
+			(*currentMenus)[0].Settings = append((*currentMenus)[0].Settings, &newSetting)
+
+			return (*currentMenus)[0].Settings[len((*currentMenus)[0].Settings)-1]
 		} else {
 			// Intermediate part, find or create the menu
 			currentMenu := cm.FindOrCreateMenu(currentMenus, part)
 			currentMenus = &currentMenu.Menus
 		}
 	}
+
 	return nil
 }
 
