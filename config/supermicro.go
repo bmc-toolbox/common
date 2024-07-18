@@ -129,12 +129,7 @@ func (cm *supermicroVendorConfig) Unmarshal(cfgData string) (err error) {
 	// convert characters from non-UTF-8 to UTF-8
 	decoder.CharsetReader = charset.NewReaderLabel
 
-	err = decoder.Decode(cm.ConfigData.BiosCfg)
-	if err != nil {
-		return err
-	}
-
-	return
+	return decoder.Decode(cm.ConfigData.BiosCfg)
 }
 
 func (cm *supermicroVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
@@ -254,6 +249,9 @@ func (cm *supermicroVendorConfig) BootMode(mode string) error {
 }
 
 func (cm *supermicroVendorConfig) BootOrder(mode string) error {
+	// In a supermicro config there are 8 total legacy boot options and 9 UEFI boot options
+	// Since we primarily care about the first two boot options we explicitly define them
+	// and rely on the for loop to populate the remainder as Disabled.
 	switch strings.ToUpper(mode) {
 	case "LEGACY":
 		cm.Raw("Legacy Boot Option #1", "Hard Disk", []string{"Boot"})
