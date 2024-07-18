@@ -62,53 +62,51 @@ func NewSupermicroVendorConfigManager(configFormat string, vendorOptions map[str
 	return supermicro, nil
 }
 
-// FindMenu locates an existing SupermicroBiosCfgMenu if one exists in the ConfigData, if not
-// it creates one and returns a pointer to that.
-func (cm *supermicroVendorConfig) FindMenu(menuName string, menuRoot *supermicroBiosCfgMenu) (m *supermicroBiosCfgMenu) {
-	// root is cm.ConfigData.BiosCfg.Menus
-	for _, m = range menuRoot.Menus {
-		if m.Name == menuName {
-			return
+// Function to find or create a setting by path
+func (cm *supermicroVendorConfig) FindOrCreateSetting(path []string, value string) *supermicroBiosCfgSetting {
+	biosCfg := cm.ConfigData.BiosCfg
+
+	var currentMenus *[]*supermicroBiosCfgMenu = &biosCfg.Menus
+
+	for i, part := range path {
+		if i == len(path)-1 {
+			// Last part, create or find the setting
+			for j := range *currentMenus {
+				for k := range (*currentMenus)[j].Settings {
+					if (*currentMenus)[j].Settings[k].Name == part {
+						return (*currentMenus)[j].Settings[k]
+					}
+				}
+
+				newSetting := &supermicroBiosCfgSetting{Name: part, SelectedOption: value}
+				(*currentMenus)[j].Settings = append((*currentMenus)[j].Settings, newSetting)
+				return (*currentMenus)[j].Settings[len((*currentMenus)[j].Settings)-1]
+			}
+		} else {
+			// Intermediate part, find or create the menu
+			currentMenu := cm.FindOrCreateMenu(currentMenus, part)
+			currentMenus = &currentMenu.Menus
 		}
 	}
-
-	m.Name = menuName
-
-	menuRoot.Menus = append(menuRoot.Menus, m)
-
-	return
+	return nil
 }
 
-// FindMenuSetting locates an existing SupermicroBiosCfgSetting if one exists in the
-// ConfigData, if not it creates one and returns a pointer to that.
-func (cm *supermicroVendorConfig) FindMenuSetting(m *supermicroBiosCfgMenu, name string) (s *supermicroBiosCfgSetting) {
-	for _, s = range m.Settings {
-		if s.Name == name {
-			return
+// Function to find or create a menu by name
+func (cm *supermicroVendorConfig) FindOrCreateMenu(menus *[]*supermicroBiosCfgMenu, name string) *supermicroBiosCfgMenu {
+	for i := range *menus {
+		if (*menus)[i].Name == name {
+			return (*menus)[i]
 		}
 	}
-
-	s.Name = name
-
-	m.Settings = append(m.Settings, s)
-
-	return
+	newMenu := &supermicroBiosCfgMenu{Name: name}
+	*menus = append(*menus, newMenu)
+	return (*menus)[len(*menus)-1]
 }
 
 func (cm *supermicroVendorConfig) Raw(name, value string, menuPath []string) {
-	menus := make([]*supermicroBiosCfgMenu, 0, len(menuPath))
+	menuPath = append(menuPath, name)
 
-	for i, name := range menuPath {
-		var m *supermicroBiosCfgMenu
-
-		if i == 0 {
-			m = cm.FindMenu(name, cm.ConfigData.BiosCfg.Menus[0])
-		} else {
-			m = cm.FindMenu(name, menus[i-1])
-		}
-
-		menus = append(menus, m)
-	}
+	_ = cm.FindOrCreateSetting(menuPath, value)
 }
 
 func (cm *supermicroVendorConfig) Marshal() (string, error) {
@@ -161,7 +159,7 @@ func (cm *supermicroVendorConfig) StandardConfig() (biosConfig map[string]string
 		}
 	}
 
-	return
+	return biosConfig, err
 }
 
 func normalizeSetting(s *supermicroBiosCfgSetting) (k, v string, err error) {
