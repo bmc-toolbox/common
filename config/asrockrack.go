@@ -115,6 +115,11 @@ func (cm *asrockrackVendorConfig) StandardConfig() (biosConfig map[string]string
 
 // Generic config options
 
+func (cm *asrockrackVendorConfig) BootOrder(mode string) error {
+	// Unimplemented
+	return
+}
+
 func (cm *asrockrackVendorConfig) EnableTPM() {
 	// Unimplemented
 }
