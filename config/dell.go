@@ -129,9 +129,8 @@ func (cm *dellVendorConfig) Marshal() (string, error) {
 	}
 }
 
-func (cm *dellVendorConfig) Unmarshal(cfgData string) (err error) {
-	err = xml.Unmarshal([]byte(cfgData), cm.ConfigData)
-	return
+func (cm *dellVendorConfig) Unmarshal(cfgData string) error {
+	return xml.Unmarshal([]byte(cfgData), cm.ConfigData)
 }
 
 func (cm *dellVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
