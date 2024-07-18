@@ -105,9 +105,8 @@ func (cm *asrockrackVendorConfig) Marshal() (string, error) {
 	}
 }
 
-func (cm *asrockrackVendorConfig) Unmarshal(cfgData string) (err error) {
-	err = xml.Unmarshal([]byte(cfgData), cm.ConfigData)
-	return
+func (cm *asrockrackVendorConfig) Unmarshal(cfgData string) error {
+	return xml.Unmarshal([]byte(cfgData), cm.ConfigData)
 }
 
 func (cm *asrockrackVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
