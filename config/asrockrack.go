@@ -120,6 +120,11 @@ func (cm *asrockrackVendorConfig) BootOrder(mode string) error {
 	return
 }
 
+func (cm *asrockrackVendorConfig) BootMode(mode string) error {
+	// Unimplemented
+	return
+}
+
 func (cm *asrockrackVendorConfig) EnableTPM() {
 	// Unimplemented
 }

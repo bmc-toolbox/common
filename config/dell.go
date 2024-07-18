@@ -144,6 +144,11 @@ func (cm *dellVendorConfig) BootOrder(mode string) error {
 	return
 }
 
+func (cm *dellVendorConfig) BootMode(mode string) error {
+	// Unimplemented
+	return
+}
+
 func (cm *dellVendorConfig) EnableTPM() {
 	cm.Raw("EnableTPM", "Enabled", []string{"BIOS.Setup.1-1"})
 }
