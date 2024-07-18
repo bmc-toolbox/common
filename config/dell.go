@@ -134,7 +134,7 @@ func (cm *dellVendorConfig) Unmarshal(cfgData string) error {
 }
 
 func (cm *dellVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
-	return
+	return biosConfig, err
 }
 
 // Generic config options

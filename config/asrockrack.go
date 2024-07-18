@@ -110,7 +110,7 @@ func (cm *asrockrackVendorConfig) Unmarshal(cfgData string) error {
 }
 
 func (cm *asrockrackVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
-	return
+	return biosConfig, err
 }
 
 // Generic config options
