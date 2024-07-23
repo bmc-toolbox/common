@@ -7,11 +7,18 @@ import (
 )
 
 type VendorConfigManager interface {
-	EnableTPM()
-	EnableSRIOV()
-
 	Raw(name, value string, menuPath []string)
 	Marshal() (string, error)
+	Unmarshal(cfgData string) (err error)
+	StandardConfig() (biosConfig map[string]string, err error)
+
+	BootMode(mode string) error
+	BootOrder(mode string) error
+	IntelSGX(mode string) error
+	SecureBoot(enable bool) error
+	TPM(enable bool) error
+	SMT(enable bool) error
+	SRIOV(enable bool) error
 }
 
 func NewVendorConfigManager(configFormat, vendorName string, vendorOptions map[string]string) (VendorConfigManager, error) {

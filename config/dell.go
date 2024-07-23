@@ -129,7 +129,50 @@ func (cm *dellVendorConfig) Marshal() (string, error) {
 	}
 }
 
+func (cm *dellVendorConfig) Unmarshal(cfgData string) error {
+	return xml.Unmarshal([]byte(cfgData), cm.ConfigData)
+}
+
+func (cm *dellVendorConfig) StandardConfig() (biosConfig map[string]string, err error) {
+	return biosConfig, err
+}
+
 // Generic config options
+
+func (cm *dellVendorConfig) BootOrder(mode string) error {
+	// Unimplemented
+	return nil
+}
+
+func (cm *dellVendorConfig) BootMode(mode string) error {
+	// Unimplemented
+	return nil
+}
+
+func (cm *dellVendorConfig) IntelSGX(mode string) error {
+	// Unimplemented
+	return nil
+}
+
+func (cm *dellVendorConfig) SecureBoot(enable bool) error {
+	// Unimplemented
+	return nil
+}
+
+func (cm *dellVendorConfig) TPM(enable bool) error {
+	// Unimplemented
+	return nil
+}
+
+func (cm *dellVendorConfig) SMT(enable bool) error {
+	// Unimplemented
+	return nil
+}
+
+func (cm *dellVendorConfig) SRIOV(enable bool) error {
+	// Unimplemented
+	return nil
+}
 
 func (cm *dellVendorConfig) EnableTPM() {
 	cm.Raw("EnableTPM", "Enabled", []string{"BIOS.Setup.1-1"})
