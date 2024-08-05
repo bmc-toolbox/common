@@ -87,8 +87,7 @@ func (cm *supermicroVendorConfig) FindOrCreateSetting(path []string, value strin
 			return (*currentMenus)[0].Settings[len((*currentMenus)[0].Settings)-1]
 		} else {
 			// Intermediate part, find or create the menu
-			currentMenu := cm.FindOrCreateMenu(currentMenus, part)
-			currentMenus = &currentMenu.Menus
+			_ = cm.FindOrCreateMenu(currentMenus, part)
 		}
 	}
 
