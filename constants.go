@@ -207,7 +207,7 @@ func FormatProductName(s string) string {
 		return "x12sth-sys"
 	case "SSG-6029P-E1CR12L-PH004", "SSG-6029P-E1CR12L":
 		return "x11dph-t"
-	case "SSG-110P-NTR10", "SSG-110P-NTR10-EI018":
+	case "SSG-110P-NTR10", "SSG-110P-NTR10-EI018", "SSG-110P-NTR10-2-EI018":
 		return "x12spo-ntf"
 	case "Micron_5200_MTFDDAK480TDN":
 		return "5200MAX"
