@@ -46,6 +46,8 @@ const (
 	SlugDriveTypeSATAHDD      = "Sata-HDD"
 	SlugNIC                   = "NIC"
 	SlugNICs                  = "NICs"
+	SlugNICPort               = "NICPort"
+	SlugNICPorts              = "NICPorts"
 	SlugPSU                   = "Power-Supply"
 	SlugPSUs                  = "Power-Supplies"
 	SlugCPLD                  = "CPLD"
@@ -85,6 +87,8 @@ func ComponentTypes() []string {
 		SlugDriveTypeSATAHDD,
 		SlugNIC,
 		SlugNICs,
+		SlugNICPort,
+		SlugNICPorts,
 		SlugPSU,
 		SlugPSUs,
 		SlugCPLD,
