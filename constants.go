@@ -119,6 +119,8 @@ func FormatVendorName(name string) string {
 	}
 
 	switch {
+	case strings.Contains(v, VendorAMD):
+		return VendorAMD
 	case strings.Contains(v, VendorAsrockrack):
 		return VendorAsrockrack
 	case strings.Contains(v, VendorDell):
