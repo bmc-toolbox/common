@@ -1,4 +1,4 @@
-module github.com/bmc-toolbox/common
+module github.com/metal-toolbox/bmc-common
 
 go 1.17
 

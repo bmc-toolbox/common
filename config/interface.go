@@ -3,7 +3,7 @@ package config
 import (
 	"strings"
 
-	"github.com/bmc-toolbox/common"
+	common "github.com/metal-toolbox/bmc-common"
 )
 
 type VendorConfigManager interface {
