@@ -3,7 +3,6 @@ linters-settings:
     # TODO: enable and fix struct alignments
     #enable:
     #  - fieldalignment
-    check-shadowing: true
     settings:
       printf:
         funcs:
@@ -62,11 +61,12 @@ linters:
     # additional linters
     - bodyclose
     - gocritic
-    - goerr113
+    - err113
     - goimports
-    - gomnd
+    - mnd
     - misspell
     - noctx
+    - predeclared
     - stylecheck
     - whitespace
     - wsl
@@ -76,13 +76,13 @@ linters:
 run:
   build-tags:
     - gingonic
-  skip-dirs:
-    - scripts
-    - docker
-    - samples
   #modules-download-mode: vendor
 
 issues:
+  exclude-dirs:
+    - scripts
+    - docker
+    - samples
   exclude-rules:
     - linters:
         - gosec
