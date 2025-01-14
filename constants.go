@@ -223,3 +223,16 @@ func FormatProductName(s string) string {
 		return s
 	}
 }
+
+// Returns the Supermicro motherboard model for the given BoardID identifier
+// from /redfish/v1/Chassis/1
+func SupermicroModelFromBoardID(id string) string {
+	switch strings.ToLower(id) {
+	case "0x89a":
+		return "x11ssl-f"
+	case "0x1b09": // 15d9:1b09 is the Q370 Chipset LPC/eSPI Controller on the board
+		return "x11scz-f"
+	default:
+		return ""
+	}
+}
