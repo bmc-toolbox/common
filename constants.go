@@ -232,6 +232,8 @@ func SupermicroModelFromBoardID(id string) string {
 		return "x11ssl-f"
 	case "0x1b09": // 15d9:1b09 is the Q370 Chipset LPC/eSPI Controller on the board
 		return "x11scz-f"
+	case "0x1c3a":
+		return "x11dgq"
 	default:
 		return ""
 	}
