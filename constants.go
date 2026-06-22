@@ -8,6 +8,7 @@ const (
 	VendorAsrockrack            = "asrockrack"
 	VendorSupermicro            = "supermicro"
 	VendorHPE                   = "hp"
+	VendorLenovo                = "lenovo"
 	VendorQuanta                = "quanta"
 	VendorGigabyte              = "gigabyte"
 	VendorIntel                 = "intel"
@@ -127,6 +128,8 @@ func FormatVendorName(name string) string {
 		return VendorDell
 	case strings.Contains(v, VendorSupermicro):
 		return VendorSupermicro
+	case strings.Contains(v, VendorLenovo):
+		return VendorLenovo
 	case strings.Contains(v, VendorQuanta):
 		return VendorQuanta
 	case strings.Contains(v, VendorGigabyte):
@@ -217,6 +220,10 @@ func FormatProductName(s string) string {
 		return "x12spo-ntf"
 	case "Micron_5200_MTFDDAK480TDN":
 		return "5200MAX"
+	case "ThinkSystem SR630 V2":
+		return "sr630v2"
+	case "ThinkSystem SR650":
+		return "sr650"
 	case "SYS-221H-TN24R":
 		return "x13dem"
 	default:
