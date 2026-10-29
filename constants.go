@@ -9,6 +9,7 @@ const (
 	VendorSupermicro            = "supermicro"
 	VendorHPE                   = "hp"
 	VendorLenovo                = "lenovo"
+	VendorCompal                = "compal"
 	VendorQuanta                = "quanta"
 	VendorGigabyte              = "gigabyte"
 	VendorIntel                 = "intel"
@@ -130,6 +131,8 @@ func FormatVendorName(name string) string {
 		return VendorSupermicro
 	case strings.Contains(v, VendorLenovo):
 		return VendorLenovo
+	case strings.Contains(v, VendorCompal):
+		return VendorCompal
 	case strings.Contains(v, VendorQuanta):
 		return VendorQuanta
 	case strings.Contains(v, VendorGigabyte):
