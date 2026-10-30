@@ -20,6 +20,8 @@ func TestFormatVendorName(t *testing.T) {
 		{"lenovo lower", "lenovo", VendorLenovo},
 		{"lenovo with text", "Lenovo Group Limited", VendorLenovo},
 		{"lenovo with whitespace", "  Lenovo  ", VendorLenovo},
+		{"compal", "COMPAL", VendorCompal},
+		{"compal with text", "Compal Electronics, Inc.", VendorCompal},
 		{"marvell", "Marvell", VendorMarvell},
 
 		// unknown vendor is returned unchanged
