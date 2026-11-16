@@ -25,6 +25,7 @@ const (
 	VendorHynix                 = "hynix"
 	VendorSamsung               = "samsung"
 	VendorMarvell               = "marvell"
+	VendorNVIDIA                = "nvidia"
 	SystemManufacturerUndefined = "To Be Filled By O.E.M."
 
 	// Generic component slugs
@@ -161,6 +162,8 @@ func FormatVendorName(name string) string {
 		return VendorSamsung
 	case strings.Contains(v, VendorMarvell):
 		return VendorMarvell
+	case strings.Contains(v, VendorNVIDIA):
+		return VendorNVIDIA
 	default:
 		return name
 	}
